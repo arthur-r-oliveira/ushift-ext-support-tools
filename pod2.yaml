@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: support-tools
+  namespace: support-tools
+spec:
+    containers:
+      - name: web
+        image: registry.redhat.io/rhel9/support-tools
+        securityContext:
+          seccompProfile:
+            type: RuntimeDefault
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          capabilities:
+            drop:
+              - ALL

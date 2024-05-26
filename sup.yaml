@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: support-tools
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: support-tools
+  name: support-tools
+  namespace: support-tools
+spec:
+  containers:
+    - image: quay.io/rhn_support_arolivei/ext-support-tools:9.4
+      name: support-tools
+      command:
+        - "/bin/bash"
+        - "-c"
+        - "while true; do sleep 30; done;"
+      resources: {}
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+        allowPrivilegeEscalation: false
+        runAsNonRoot: true
+        capabilities:
+          drop:
+            - ALL
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
